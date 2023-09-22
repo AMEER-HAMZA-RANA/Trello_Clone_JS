@@ -14,11 +14,6 @@ export default function setup(dragnDropCompleted) {
   });
 }
 
-// add mouseDown {
-// add mouseMove
-// add mouseUp and remove mouseMove
-// }
-
 function setUpDragItems(e, elementClone, element, ghost) {
   const originalRect = element.getBoundingClientRect();
 
@@ -40,7 +35,7 @@ function setUpDragItems(e, elementClone, element, ghost) {
   return offset;
 }
 
-function setUpDragEvents(elementClone, element, offset, ghost, dragnDropCompleted) {
+function setUpDragEvents( elementClone, element, offset, ghost, dragnDropCompleted) {
   const mousemove = (e) => {
     ("mouse MOVINGggggg");
     e;
@@ -70,13 +65,12 @@ function setUpDragEvents(elementClone, element, offset, ghost, dragnDropComplete
 
       const dropZone = getDropZone(ghost);
       if (dropZone) {
-
         dragnDropCompleted({
           startZone: getDropZone(element),
           endZone: dropZone,
           index: [...dropZone.children].indexOf(ghost),
-          draggedElement: element
-        })
+          draggedElement: element,
+        });
 
         dropZone.insertBefore(element, ghost);
       }
