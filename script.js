@@ -1,5 +1,6 @@
 import setupDragAndDrop from "./dragAndDrop";
 import { v4 as uuid } from "uuid";
+import addGlobalEventListener from "./addGlobalEventListener";
 
 const DEFAULT_LANES = {
   backlog: [
@@ -16,6 +17,8 @@ renderLanes();
 setupDragAndDrop(dragnDropCompleted);
 function dragnDropCompleted(dragInfo) {
   updateLanes(dragInfo);
+  console.log(dragInfo)
+  console.log('lanes',lanes)
 }
 
 function updateLanes(dragInfo) {
@@ -50,13 +53,14 @@ function renderLanes() {
     const tasks = index[1];
     const htmlLane = document.querySelector(`[data-lane-name="${laneName}"]`);
     tasks.forEach((task) => {
-      const taskHTML = renderTask(task);
+      const taskHTML = createTask(task);
       htmlLane.append(taskHTML);
     });
   });
 }
 
-function renderTask(task) {
+function createTask(task) {
+  console.log(task)
   const element = document.createElement("div");
   element.innerText = task.text;
   element.classList.add("task");
@@ -64,3 +68,23 @@ function renderTask(task) {
   element.id = task.id;
   return element;
 }
+
+addGlobalEventListener('submit', '[data-task-form]', e => {
+  e.preventDefault()
+
+  const taskInput = e.target.querySelector('[data-task-input]')
+
+  if(taskInput.value === '') return
+
+  let taskObj = {id: uuid(), text: taskInput.value}
+  const taskLane = taskInput.closest('.lane').querySelector('[data-drop-zone]')
+  const laneName = taskLane.dataset.laneName
+  lanes[laneName].push(taskObj)
+  
+  const task = createTask(taskObj)
+  taskLane.append(task)
+
+  saveLanes()
+  taskInput.value = ''
+  console.log('Lanes', lanes)
+})
