@@ -17,8 +17,6 @@ renderLanes();
 setupDragAndDrop(dragnDropCompleted);
 function dragnDropCompleted(dragInfo) {
   updateLanes(dragInfo);
-  console.log(dragInfo)
-  console.log('lanes',lanes)
 }
 
 function updateLanes(dragInfo) {
@@ -60,7 +58,6 @@ function renderLanes() {
 }
 
 function createTask(task) {
-  console.log(task)
   const element = document.createElement("div");
   element.innerText = task.text;
   element.classList.add("task");
@@ -86,5 +83,4 @@ addGlobalEventListener('submit', '[data-task-form]', e => {
 
   saveLanes()
   taskInput.value = ''
-  console.log('Lanes', lanes)
 })
